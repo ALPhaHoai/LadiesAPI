@@ -33,6 +33,7 @@ module.exports = {
                     })
                 }
             }).catch(error => {
+                console.log(error)
                 res.json({
                     message: 'Username or password invalid',
                     // error: error,
@@ -75,6 +76,7 @@ module.exports = {
                     data: user.toObject()
                 })
             }).catch(error => {
+                console.log(error)
                 res.json({
                     message: 'Register fail',
                     // error: error,

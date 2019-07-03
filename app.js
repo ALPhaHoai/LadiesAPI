@@ -6,6 +6,7 @@ const logger = require('morgan')
 const mongoose = require('mongoose')
 
 const userController = require('./controllers/users')
+const productController = require('./controllers/products')
 
 const app = express()
 
@@ -36,6 +37,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 // routers
 app.post("/login", userController.user_login_post)
 app.post("/register", userController.user_register_post)
+app.get("/product", productController.products_get)
+app.post("/product", productController.product_post)
 
 
 module.exports = app

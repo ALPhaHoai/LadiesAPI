@@ -10,3 +10,4 @@ const CommentSchema = new Schema({
 }, {timestamps: true})
 
 module.exports = model(process.env.SchemaName_Comment, CommentSchema)
+module.exports.CommentSchema = CommentSchema
