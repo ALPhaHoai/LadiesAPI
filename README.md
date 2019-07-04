@@ -1,5 +1,5 @@
 # LadiesAPI
-Nodejs Api for Ladies Android App
+Nodejs Api for [Ladies Android App](https://github.com/ALPhaHoai/Ladies)
 
 You can try my API in [Heroku](https://ladies-barcode.herokuapp.com)
 
