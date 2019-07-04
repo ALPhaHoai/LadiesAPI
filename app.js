@@ -20,6 +20,7 @@ mongoose.set('useFindAndModify', false)
 mongoose.connect(mongodbUri, {useNewUrlParser: true}, err => {
     if (err) {
         console.log('Unable to connect to the mongoDB server. Error:', err)
+        process.exit(1)
     } else {
         //HURRAY!! We are connected. :)
         console.log('Connection established to', mongodbUri)
