@@ -41,7 +41,7 @@ module.exports = {
                 console.log(error)
                 res.json({
                     message: 'Username or password invalid',
-                    // error: error,
+                    error: error.message,
                     success: false
                 })
             })
@@ -89,7 +89,7 @@ module.exports = {
                 console.log(error)
                 res.json({
                     message: 'Register fail',
-                    // error: error,
+                    error: error.message,
                     success: false
                 })
             })

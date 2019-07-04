@@ -7,6 +7,7 @@ const mongoose = require('mongoose')
 
 const userController = require('./controllers/users')
 const productController = require('./controllers/products')
+const categoryController = require('./controllers/category')
 
 const app = express()
 
@@ -40,6 +41,9 @@ app.post("/login", userController.user_login_post)
 app.post("/register", userController.user_register_post)
 app.get("/product", productController.products_get)
 app.post("/product", productController.product_post)
+app.get("/categories", categoryController.categories_get)
+app.post("/categories", categoryController.categories_post)
+app.put("/categories", categoryController.categories_put)
 
 
 module.exports = app

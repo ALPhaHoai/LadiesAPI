@@ -2,6 +2,7 @@ const Product = require('../models/Product.model')
 const Joi = require('joi')
 const MAX_ITEM_PER_PAGE = 50
 const DEFAULT_ITEM_PER_PAGE = 20
+const {handleError} = require('./utils')
 
 module.exports = {
     products_get: function (req, res, next) {
@@ -28,12 +29,7 @@ module.exports = {
                     data: product
                 })
             }).catch(error => {
-                console.log(error)
-                res.json({
-                    message: 'Request fail',
-                    // error: error,
-                    success: false
-                })
+                handleError(error, res)
             })
         }
     },
@@ -81,12 +77,7 @@ module.exports = {
                     })
                 })
             }).catch(error => {
-                console.log(error)
-                res.json({
-                    message: 'Request fail',
-                    // error: error,
-                    success: false
-                })
+                handleError(error, res)
             })
         }
     }
