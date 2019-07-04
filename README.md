@@ -141,6 +141,14 @@ You can try my API in [Heroku](https://ladies-barcode.herokuapp.com)
         ]
     }
 
+Empty data
+
+    {
+        "message": "Request success",
+        "success": true,
+        "data": []
+    }
+
 ##### Fail
 
 ### Add new product
