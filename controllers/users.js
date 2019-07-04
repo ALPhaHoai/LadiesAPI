@@ -20,11 +20,16 @@ module.exports = {
             const username = req.body.username.toLowerCase()
             const password = req.body.password
             User.findOne({username: username}).then(user => {
-                if (user.password === password) {
+                if (user && user.password === password) {
                     res.json({
                         message: 'Login success',
                         success: true,
-                        data: user.toObject()
+                        data: user.toObject({
+                            transform: (doc, ret, options) => {
+                                delete ret.password
+                                delete ret.__v
+                            }
+                        })
                     })
                 } else {
                     res.json({
@@ -73,7 +78,12 @@ module.exports = {
                 res.json({
                     message: 'Register success',
                     success: true,
-                    data: user.toObject()
+                    data: user.toObject({
+                        transform: (doc, ret, options) => {
+                            delete ret.password
+                            delete ret.__v
+                        }
+                    })
                 })
             }).catch(error => {
                 console.log(error)

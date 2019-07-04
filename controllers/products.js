@@ -40,7 +40,7 @@ module.exports = {
 
     product_post: function (req, res, next) {
         const schema = Joi.object().keys({
-            name: Joi.string().alphanum().min(2).max(255).required(),
+            name: Joi.string().min(2).max(255).required(),
             price: Joi.number().min(0),
             description: Joi.string(),
             image: Joi.string(),
@@ -54,7 +54,7 @@ module.exports = {
         if (result.error) {
             console.log(result.error)
             res.json({
-                message: 'Register params invalid',
+                message: 'Request params invalid',
                 success: false
             })
         } else {
@@ -74,7 +74,11 @@ module.exports = {
                 res.json({
                     message: 'Request success',
                     success: true,
-                    data: product.toObject()
+                    data: product.toObject({
+                        transform: (doc, ret, options) => {
+                            delete ret.__v
+                        }
+                    })
                 })
             }).catch(error => {
                 console.log(error)

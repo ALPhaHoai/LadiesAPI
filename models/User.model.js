@@ -8,8 +8,8 @@ const UserSchema = new Schema({
     name: {type: String, trim: true, required: true, min: 2},
     avatar: {type: String, trim: true},
     address: {type: String, trim: true},
-    phone: {type: String, trim: true, unique: true},
-    email: {type: String, trim: true, unique: true, lowercase: true},
+    phone: {type: String, trim: true, unique: true, sparse: true, index: true},
+    email: {type: String, trim: true, unique: true, lowercase: true, sparse: true, index: true},
     birthday: {type: Date},
     history: [{
         type: {type: String, enum: ['Upvote', 'Downvote', 'View', 'Comment'], required: true},
