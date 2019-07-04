@@ -13,10 +13,10 @@ const UserSchema = new Schema({
     birthday: {type: Date},
     history: [{
         type: {type: String, enum: ['Upvote', 'Downvote', 'View', 'Comment'], required: true},
-        comment_id: {type: Schema.Types.ObjectId, ref: process.env.SchemaName_Comment},
+        comment_id: {type: Schema.Types.ObjectId, ref: 'Comment'},
         last_update: {type: Date, default: Date.now()},
-        product_id: {type: Schema.Types.ObjectId, ref: process.env.SchemaName_Product, required: true}
+        product_id: {type: Schema.Types.ObjectId, ref: 'Product', required: true}
     }]
 }, {timestamps: true})
 
-module.exports = model(process.env.SchemaName_User, UserSchema)
+module.exports = model('User', UserSchema)

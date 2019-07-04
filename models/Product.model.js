@@ -15,7 +15,7 @@ const ProductSchema = new Schema({
     categories: [CategorySchema],
     comments: [CommentSchema],
     similar_products: [{
-        product_id: {type: Schema.Types.ObjectId, ref: process.env.SchemaName_Product, required: true}
+        product_id: {type: Schema.Types.ObjectId, ref: 'Product', required: true}
     }],
     // tags: [TagSchema],
     tags: [{type: String, required: true, trim: true}],
@@ -29,5 +29,5 @@ const ProductSchema = new Schema({
 
 //enum: ['Coffee', 'Tea', 'Water',]
 
-module.exports = model(process.env.SchemaName_Product, ProductSchema)
+module.exports = model('Product', ProductSchema)
 module.exports.ProductSchema = ProductSchema
