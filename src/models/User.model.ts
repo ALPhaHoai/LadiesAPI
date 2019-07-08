@@ -1,5 +1,7 @@
 import {Document, Schema, model, Model} from "mongoose"
 import bcrypt from "bcrypt"
+import { config } from "../config"
+
 
 export interface IUser extends Document {
     username: string
@@ -38,9 +40,9 @@ export const UserSchema = new Schema({
     birthday: {type: Date},
     history: [{
         type: {type: String, enum: ["Upvote", "Downvote", "View", "Comment"], required: true},
-        comment_id: {type: Schema.Types.ObjectId, ref: "Comment"},
+        comment_id: {type: Schema.Types.ObjectId, ref: config.database.SchemaName_Comment},
         last_update: {type: Date, default: Date.now()},
-        product_id: {type: Schema.Types.ObjectId, ref: "Product", required: true},
+        product_id: {type: Schema.Types.ObjectId, ref: config.database.SchemaName_Product, required: true},
     }],
     tokens: [{
         accessToken: {type: String, trim: true},
@@ -77,4 +79,4 @@ const comparePassword: comparePasswordFunction = function (candidatePassword, cb
 }
 UserSchema.methods.comparePassword = comparePassword
 
-export const User: Model<IUser> = model<IUser>("User", UserSchema)
+export const User: Model<IUser> = model<IUser>(config.database.SchemaName_User, UserSchema)

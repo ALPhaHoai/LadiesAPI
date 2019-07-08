@@ -1,4 +1,5 @@
 import {Document, Schema, model, Model} from "mongoose"
+import { config } from "../config"
 
 export interface ICategory extends Document {
     name: string
@@ -8,7 +9,7 @@ export interface ICategory extends Document {
 
 export const CategorySchema = new Schema({
     name: {type: String, trim: true, required: true, unique: true},
-    parent_id: {type: Schema.Types.ObjectId, ref: "Category"},
+    parent_id: {type: Schema.Types.ObjectId, ref: config.database.SchemaName_Category},
 }, {timestamps: true})
 
-export const Category: Model<ICategory> = model<ICategory>("Category", CategorySchema)
+export const Category: Model<ICategory> = model<ICategory>(config.database.SchemaName_Category, CategorySchema)

@@ -2,7 +2,6 @@ import {User, IUser} from "../models/User.model"
 
 const Joi = require("joi")
 import {Request, Response, NextFunction} from "express"
-import {ICategory} from "../models/Category.model"
 
 export const user_login_post = function (req: Request, res: Response, next: NextFunction) {
     const schema = Joi.object().keys({

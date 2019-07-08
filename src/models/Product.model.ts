@@ -1,8 +1,7 @@
 import {Document, Schema, model, Model} from "mongoose"
 import {ICategory, CategorySchema} from './Category.model'
 import {IComment, CommentSchema} from './Comment.model'
-import {TagSchema} from './Tag.model'
-import {IUser, UserSchema} from "./User.model"
+import { config } from "../config"
 
 
 export interface IProduct extends Document {
@@ -34,7 +33,7 @@ export const ProductSchema = new Schema({
     categories: [CategorySchema],
     comments: [CommentSchema],
     similar_products: [{
-        product_id: {type: Schema.Types.ObjectId, ref: 'Product', required: true}
+        product_id: {type: Schema.Types.ObjectId, ref: config.database.SchemaName_Product, required: true}
     }],
     // tags: [TagSchema],
     tags: [{type: String, required: true, trim: true}],
@@ -47,4 +46,4 @@ export const ProductSchema = new Schema({
 
 
 //enum: ['Coffee', 'Tea', 'Water',]
-export const Product: Model<IProduct> = model<IProduct>("Product", ProductSchema)
+export const Product: Model<IProduct> = model<IProduct>(config.database.SchemaName_Product, ProductSchema)
