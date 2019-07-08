@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "npm run build-ts && npm run run-node",
+    "start": "ts-node src/server.ts",
+    "start2": "npm run build-ts && npm run run-node",
     "tsnode": "ts-node src/server.ts",
     "build-ts": "tsc",
     "run-node": "node dist/server.js"
@@ -32,6 +33,7 @@
     "@types/joi": "^14.3.3",
     "@types/mongoose": "^5.5.5",
     "@types/morgan": "^1.7.35",
-    "@types/node": "^12.0.2"
+    "@types/node": "^12.0.2",
+
   }
 }
