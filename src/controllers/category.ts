@@ -31,7 +31,7 @@ export const categories_get = function (req: Request, res: Response, next: NextF
                 message: "Request success",
                 success: true,
                 data: categories.map(category => {
-                    delete category.__v
+                    category.__v = undefined // delete category.__v is not work
                     if (category.parent_id) {
                         category.parent_id = category.parent_id.toString()
                     }
