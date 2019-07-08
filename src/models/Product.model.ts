@@ -1,11 +1,30 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
-const model = mongoose.model
-const {CategorySchema} = require('./Category.model')
-const {CommentSchema} = require('./Comment.model')
-const {TagSchema} = require('./Tag.model')
+import {Document, Schema, model, Model} from "mongoose"
+import {ICategory, CategorySchema} from './Category.model'
+import {IComment, CommentSchema} from './Comment.model'
+import {TagSchema} from './Tag.model'
+import {IUser, UserSchema} from "./User.model"
 
-const ProductSchema = new Schema({
+
+export interface IProduct extends Document {
+    name: string
+    price: number
+    description: string
+    image: string
+    image_small: string
+    link: string
+    categories: [ICategory]
+    comments: [IComment]
+    similar_products: [{product_id: IProduct['_id']}]
+    tags: [string]
+    statistics: {
+        upvote: number
+        downvote: number
+        view: number
+    }
+
+}
+
+export const ProductSchema = new Schema({
     name: {type: String, trim: true, required: true, min: 2, max: 255, unique: true},
     price: {type: Number, required: true, min: 0},
     description: {type: String, trim: true},
@@ -28,6 +47,4 @@ const ProductSchema = new Schema({
 
 
 //enum: ['Coffee', 'Tea', 'Water',]
-
-module.exports = model('Product', ProductSchema)
-module.exports.ProductSchema = ProductSchema
+export const Product: Model<IProduct> = model<IProduct>("Product", ProductSchema)
