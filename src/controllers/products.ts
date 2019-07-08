@@ -1,15 +1,13 @@
 import {IProduct, Product} from "../models/Product.model"
 import Joi from "joi"
 
-const MAX_ITEM_PER_PAGE = 50
-const DEFAULT_ITEM_PER_PAGE = 20
+import {config} from "../config"
 import {handleError} from "./utils"
 import {Request, Response, NextFunction} from "express"
-import {ICategory} from "../models/Category.model"
 
 export const products_get = function (req: Request, res: Response, next: NextFunction) {
     const schema = Joi.object().keys({
-        limit: Joi.number().min(1).max(MAX_ITEM_PER_PAGE),
+        limit: Joi.number().min(1).max(config.MAX_ITEM_PER_PAGE),
     }).unknown()
 
     const result = schema.validate(req.body)
@@ -21,7 +19,7 @@ export const products_get = function (req: Request, res: Response, next: NextFun
             success: false,
         })
     } else {
-        let limit = req.body.limit || DEFAULT_ITEM_PER_PAGE
+        let limit = req.body.limit || config.DEFAULT_ITEM_PER_PAGE
         limit = parseInt(limit)
 
         Product.find().limit(limit).then(product => {
