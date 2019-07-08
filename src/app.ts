@@ -1,7 +1,6 @@
 require("dotenv").config()
 import express from "express"
 import {join} from "path"
-
 import cookieParser from "cookie-parser"
 import logger from "morgan"
 import connectDatabase from "./connect-database"
@@ -17,7 +16,6 @@ if (mongodbUri === undefined) {
     process.exit(1)
 }
 connectDatabase(mongodbUri)
-
 
 app.use(logger("dev"))
 app.use(express.json())

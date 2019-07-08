@@ -9,4 +9,8 @@ export const config = {
         SchemaName_Category: "Category",
         SchemaName_Comment: "Comment",
     },
+
+    app: {
+        DEFAULT_PORT: 3005,// Using port from environment or this port
+    }
 }

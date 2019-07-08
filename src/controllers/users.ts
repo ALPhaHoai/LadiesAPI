@@ -1,6 +1,5 @@
 import {User, IUser} from "../models/User.model"
-
-const Joi = require("joi")
+import Joi from "joi"
 import {Request, Response, NextFunction} from "express"
 
 export const user_login_post = function (req: Request, res: Response, next: NextFunction) {

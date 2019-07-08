@@ -1,8 +1,6 @@
 import {Category, ICategory} from "../models/Category.model"
-
 const ObjectId = require("mongoose").Types.ObjectId
 import Joi from "joi"
-
 import {config} from "../config"
 import {handleError} from "./utils"
 import {Request, Response, NextFunction} from "express"

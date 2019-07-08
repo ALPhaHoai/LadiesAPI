@@ -1,6 +1,5 @@
 import {IProduct, Product} from "../models/Product.model"
 import Joi from "joi"
-
 import {config} from "../config"
 import {handleError} from "./utils"
 import {Request, Response, NextFunction} from "express"
