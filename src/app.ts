@@ -7,6 +7,8 @@ import connectDatabase from "./connect-database"
 import * as userController from "./controllers/users"
 import * as productController from "./controllers/products"
 import * as categoryController from "./controllers/category"
+import {tokenVerify} from "./auth"
+
 
 const app = express()
 
@@ -23,14 +25,13 @@ app.use(express.urlencoded({extended: false}))
 app.use(cookieParser())
 app.use(express.static(join(__dirname, "public")))
 
-
 // routers
 app.post("/login", userController.user_login_post)
 app.post("/register", userController.user_register_post)
-app.get("/product", productController.products_get)
-app.post("/product", productController.product_post)
-app.get("/categories", categoryController.categories_get)
-app.post("/categories", categoryController.categories_post)
-app.put("/categories", categoryController.categories_put)
+app.get("/product", tokenVerify, productController.products_get)
+app.post("/product", tokenVerify, productController.product_post)
+app.get("/categories", tokenVerify, categoryController.categories_get)
+app.post("/categories", tokenVerify, categoryController.categories_post)
+app.put("/categories", tokenVerify, categoryController.categories_put)
 
 export default app

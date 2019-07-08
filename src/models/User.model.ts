@@ -1,7 +1,6 @@
 import {Document, Schema, model, Model} from "mongoose"
 import bcrypt from "bcrypt"
-import { config } from "../config"
-
+import {config} from "../config"
 
 export interface IUser extends Document {
     username: string
@@ -22,12 +21,17 @@ export interface IUser extends Document {
     tokens: AuthToken[],
 }
 
-type comparePasswordFunction = (candidatePassword: string, cb: (err: any, isMatch: any) => {}) => void;
+type comparePasswordFunction = (candidatePassword: string, cb: (err: any, isMatch: boolean) => void) => void
 
-export type AuthToken = {
-    accessToken: string,
+export class AuthToken{
+    token: string
     kind: string
-};
+
+    constructor(token: string, kind: string) {
+        this.token = token
+        this.kind = kind
+    }
+}
 
 export const UserSchema = new Schema({
     username: {type: String, trim: true, required: true, unique: true, lowercase: true, min: 3, max: 30},
@@ -45,8 +49,8 @@ export const UserSchema = new Schema({
         product_id: {type: Schema.Types.ObjectId, ref: config.database.SchemaName_Product, required: true},
     }],
     tokens: [{
-        accessToken: {type: String, trim: true},
-        kind: {type: String, trim: true},
+        token: {type: String},
+        kind: {type: String},
     }],
 }, {timestamps: true})
 
@@ -72,11 +76,12 @@ UserSchema.pre<IUser>("save", function save(next) {
     })
 })
 
-const comparePassword: comparePasswordFunction = function (candidatePassword, cb) {
+const comparePassword : comparePasswordFunction = function (candidatePassword: string, cb: (err: any, isMatch: boolean) => void) {
     bcrypt.compare(candidatePassword, this.password, (err: Error, isMatch: boolean) => {
         cb(err, isMatch)
     })
 }
+
 UserSchema.methods.comparePassword = comparePassword
 
 export const User: Model<IUser> = model<IUser>(config.database.SchemaName_User, UserSchema)

@@ -1,6 +1,8 @@
-import {User, IUser} from "../models/User.model"
+import {User, IUser, AuthToken} from "../models/User.model"
 import Joi from "joi"
 import {Request, Response, NextFunction} from "express"
+import jwt from "jsonwebtoken"
+import {config} from "../config"
 
 export const user_login_post = function (req: Request, res: Response, next: NextFunction) {
     const schema = Joi.object().keys({
@@ -20,16 +22,58 @@ export const user_login_post = function (req: Request, res: Response, next: Next
         const username = req.body.username.toLowerCase()
         const password = req.body.password
         User.findOne({username: username}).then(user => {
-            if (user && user.password === password) {
-                res.json({
-                    message: "Login success",
-                    success: true,
-                    data: user.toObject({
-                        transform: (doc: IUser, ret: IUser, options: object) => {
-                            delete ret.password
-                            delete ret.__v
-                        },
-                    }),
+            if (user) {
+                user.comparePassword(password, (err: any, isMatch: boolean) => {
+                    if (isMatch) {
+                        jwt.sign({username: username}, config.auth.secret, {expiresIn: "12h"}, function (err: any, token: string) {
+                            if (!err) {
+                                user.tokens.push(new AuthToken(token, "user"))//after this line, its auto create __id field for each authToken
+                                console.log("User Tokens: ", user.tokens)
+                                if (config.auth.saveTokensToDatabase) {
+                                    user.save().then(newUser => {
+                                        res.json({
+                                            message: "Login success",
+                                            success: true,
+                                            data: newUser.toObject({
+                                                transform: (doc: IUser, ret: IUser, options: object) => {
+                                                    delete ret.password
+                                                    delete ret.__v
+                                                },
+                                            }),
+                                        })
+                                    }).catch(err => {
+                                        console.log(err)
+                                        res.json({
+                                            message: "Can not login",//Cannot create a jsonwebtoken
+                                            success: false,
+                                        })
+                                    })
+                                } else {
+                                    res.json({
+                                        message: "Login success",
+                                        success: true,
+                                        data: user.toObject({
+                                            transform: (doc: IUser, ret: IUser, options: object) => {
+                                                delete ret.password
+                                                delete ret.__v
+                                            },
+                                        }),
+                                    })
+                                }
+                            } else {
+                                console.log(err)
+                                res.json({
+                                    message: "Can not login",//Cannot create a jsonwebtoken
+                                    success: false,
+                                })
+                            }
+                        })
+                    } else {
+                        res.json({
+                            message: "Username or password invalid",
+                            success: false,
+                        })
+                    }
                 })
             } else {
                 res.json({
@@ -41,7 +85,7 @@ export const user_login_post = function (req: Request, res: Response, next: Next
             console.log(error)
             res.json({
                 message: "Username or password invalid",
-                error: error.message,
+                // error: error.message,
                 success: false,
             })
         })
@@ -89,7 +133,7 @@ export const user_register_post = function (req: Request, res: Response, next: N
             console.log(error)
             res.json({
                 message: "Register fail",
-                error: error.message,
+                // error: error.message,
                 success: false,
             })
         })

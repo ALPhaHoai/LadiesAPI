@@ -12,5 +12,9 @@ export const config = {
 
     app: {
         DEFAULT_PORT: 3005,// Using port from environment or this port
-    }
+    },
+    auth: {
+        secret: "My_Secret21",
+        saveTokensToDatabase: false
+    },
 }
